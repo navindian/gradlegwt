@@ -1,0 +1,79 @@
+
+defaultTasks 'eclipse', 'build'
+
+buildscript {
+    repositories {
+      //  mavenCentral()
+        //jcenter()
+    }
+    
+}
+
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	
+	version = '1.0'
+
+	group = 'com.something.samplegwtproject'
+	
+	
+	repositories {
+		mavenCentral()
+	}
+	
+	
+	[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+	compileJava {
+		options.debug = true
+		options.debugOptions.debugLevel = "source,lines,vars"
+	}
+	
+
+
+	dependencies {
+		//testCompile 'junit:junit:[4.10,)'
+	}
+
+
+	
+	sourceSets {
+		main {
+			resources {
+				srcDir 'src/main/java'
+			}
+		}
+		test {
+			resources {
+				srcDir 'src/test/java'
+			} 
+		}
+	}
+
+	task sourceJar(type: Jar) {		
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
+	
+	jar {
+		dependsOn 'sourceJar'
+	}
+
+	configurations {
+		source
+	}
+
+
+	artifacts {
+		source sourceJar
+	}
+	
+	
+}
+
+ 

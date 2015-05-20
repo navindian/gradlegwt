@@ -1,0 +1,59 @@
+
+apply from: '../gwtBuild.gradle'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+defaultTasks 'eclipse', 'build'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+       mavenCentral()
+    }
+}
+repositories {
+       mavenCentral()
+    }
+	version = '1.0'
+
+	group = 'com.something.samplegwtproject'
+	
+	[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+	compileJava {
+		options.debug = true
+		options.debugOptions.debugLevel = "source,lines,vars"
+	}
+	
+	dependencies {
+		compile "com.google.gwt:gwt-dev:2.6.1"
+		compile "com.google.gwt:gwt-user:2.7.0"
+		compile "com.google.gwt:gwt-servlet:2.7.0"
+		compile "com.google.gwt:gwt-codeserver:2.5.1"
+	}
+
+	sourceSets {
+		main {
+			resources {
+				srcDir 'src/main/java'
+			}
+		}
+		test {
+			resources {
+				srcDir 'src/test/java'
+			} 
+		}
+	}
+	configurations {
+		source
+	}
+
+compileGwt.modules = ['com.something.samplegwtproject.SampleGWTProject']
+superDevMode.modules = ['com.something.samplegwtproject.SampleGWTProject']
+
+devMode.modules = ['com.something.samplegwtproject.SampleGWTProject']
+devMode.startupUrl = 'SampleGWTProject.html'
+
+
